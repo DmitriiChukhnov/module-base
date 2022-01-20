@@ -64,6 +64,7 @@ class SkipItems implements RecalculationPreHandlerInterface
         //Create mock Order
         $orderSkippedLess = OrderMockBuilder::getNewOrderInstance(0, 0, 0);
         $orderSkippedLess->setData($entity->getData());
+        $orderSkippedLess->setPayment($entity->getPayment());
         $orderSkippedLess->setSubtotalInclTax($newSubTotalInclTax);
         $orderSkippedLess->setGrandTotal($newGrandTotal);
         $orderSkippedLess->setDiscountAmount($newDiscountAmount);
@@ -73,10 +74,6 @@ class SkipItems implements RecalculationPreHandlerInterface
 
         $itemIdsToSkip = $this->skippedItemsCollector->getItemIdsToSkip($entity);
         foreach ($entity->getItems() as $item) {
-            if ($item->isDummy()) {
-                continue;
-            }
-
             if (in_array((int) $item->getId(), $itemIdsToSkip, true)) {
                 continue;
             }
